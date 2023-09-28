@@ -17,7 +17,6 @@ public class ChangingUserDataTest {
     private final AuthUsers authUsers = new AuthUsers();
     private final UsersRegistration usersRegistration = new UsersRegistration();
     private final AssertsAuth assertsAuth = new AssertsAuth();
-    private final UserData userData = new UserData();
     private ValidatableResponse creatingUser;
     private ValidatableResponse updateUserData;
     private Authentication authUserData;
@@ -27,7 +26,7 @@ public class ChangingUserDataTest {
 
     @Before
     public void creatingTestUser() {
-        creatingUser = usersRegistration.userRegistration(userData.randomUser());
+        creatingUser = usersRegistration.userRegistration(UserData.randomUser());
         randomUserEmail = creatingUser.extract().path("user.email");
     }
 
@@ -38,7 +37,7 @@ public class ChangingUserDataTest {
         authUserData = new Authentication(randomUserEmail, "q12345678");
         authRandomUser = authUsers.authenticationUser(authUserData);
         userToken = authRandomUser.extract().path("accessToken");
-        updateUserData = updateUsers.ChangingDataUser(userToken, userData.updateUserName(randomUserEmail));
+        updateUserData = updateUsers.ChangingDataUser(userToken, UserData.updateUserName(randomUserEmail));
         assertsAuth.successfulUpdateUser(updateUserData);
 
     }
@@ -50,7 +49,7 @@ public class ChangingUserDataTest {
         authUserData = new Authentication(randomUserEmail, "q12345678");
         authRandomUser = authUsers.authenticationUser(authUserData);
         userToken = authRandomUser.extract().path("accessToken");
-        updateUserData = updateUsers.ChangingDataUser(userToken, userData.updateUserEmail("TestExample"));
+        updateUserData = updateUsers.ChangingDataUser(userToken, UserData.updateUserEmail("TestExample"));
         randomUserEmail = updateUserData.extract().path("user.email");
         assertsAuth.successfulUpdateUser(updateUserData);
 
@@ -60,7 +59,7 @@ public class ChangingUserDataTest {
     @DisplayName("Изменение name пользователя без авторизации")
     @Description("Изменение name пользователя без авторизации")
     public void ChangingUserNameWithoutAuthorization() {
-        updateUserData = updateUsers.ChangingDataUser("", userData.updateUserName("TestExample"));
+        updateUserData = updateUsers.ChangingDataUser("", UserData.updateUserName("TestExample"));
         assertsAuth.failedUpdateUser(updateUserData);
     }
 
@@ -68,7 +67,7 @@ public class ChangingUserDataTest {
     @DisplayName("Изменение email пользователя без авторизации")
     @Description("Изменение email пользователя без авторизации")
     public void ChangingUserEmailWithoutAuthorization() {
-        updateUserData = updateUsers.ChangingDataUser("", userData.updateUserEmail("TestExample@TestExample.com"));
+        updateUserData = updateUsers.ChangingDataUser("", UserData.updateUserEmail("TestExample@TestExample.com"));
         assertsAuth.failedUpdateUser(updateUserData);
     }
 

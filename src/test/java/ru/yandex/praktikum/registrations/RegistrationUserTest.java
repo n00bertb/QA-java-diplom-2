@@ -12,7 +12,6 @@ import ru.yandex.praktikum.registrations.user.UsersRegistration;
 
 @DisplayName("Проверка создания пользователя")
 public class RegistrationUserTest {
-    private final UserData userData = new UserData();
     private final UsersRegistration usersRegistration = new UsersRegistration();
     private final AssertsRegistrations assertsRegistrations = new AssertsRegistrations();
     private final AuthUsers authUsers = new AuthUsers();
@@ -27,7 +26,7 @@ public class RegistrationUserTest {
     @DisplayName("Регистрация уникального пользователя")
     @Description("Создать уникального пользователя")
     public void creatingUniqueUser() {
-        creatingUser = usersRegistration.userRegistration(userData.randomUser());
+        creatingUser = usersRegistration.userRegistration(UserData.randomUser());
         assertsRegistrations.successfulCreation(creatingUser);
 
     }
@@ -36,8 +35,8 @@ public class RegistrationUserTest {
     @DisplayName("Повторная регистрация пользователя")
     @Description("Создать пользователя, который уже зарегистрирован")
     public void createUserAlreadyExists() {
-        creatingUser = usersRegistration.userRegistration(userData.baseUser());
-        creatingBaseUser = usersRegistration.userRegistration(userData.baseUser());
+        creatingUser = usersRegistration.userRegistration(UserData.baseUser());
+        creatingBaseUser = usersRegistration.userRegistration(UserData.baseUser());
         assertsRegistrations.creatingExistingAccount(creatingBaseUser);
     }
 
@@ -45,7 +44,7 @@ public class RegistrationUserTest {
     @DisplayName("Регистрация пользователя без email")
     @Description("создать пользователя и не заполнить одно из обязательных полей.")
     public void createUserEmptyEmail() {
-        creatingUser = usersRegistration.userRegistration(userData.userWithEmptyLogin());
+        creatingUser = usersRegistration.userRegistration(UserData.userWithEmptyLogin());
         assertsRegistrations.failedCreation(creatingUser);
     }
 
@@ -53,7 +52,7 @@ public class RegistrationUserTest {
     @DisplayName("Регистрация пользователя без password")
     @Description("создать пользователя и не заполнить одно из обязательных полей.")
     public void createUserEmptyPassword() {
-        creatingUser = usersRegistration.userRegistration(userData.userWithEmptyPassword());
+        creatingUser = usersRegistration.userRegistration(UserData.userWithEmptyPassword());
         assertsRegistrations.failedCreation(creatingUser);
     }
 
@@ -61,7 +60,7 @@ public class RegistrationUserTest {
     @DisplayName("Регистрация пользователя без name")
     @Description("создать пользователя и не заполнить одно из обязательных полей.")
     public void createUserEmptyName() {
-        creatingUser = usersRegistration.userRegistration(userData.userWithEmptyName());
+        creatingUser = usersRegistration.userRegistration(UserData.userWithEmptyName());
         assertsRegistrations.failedCreation(creatingUser);
     }
 

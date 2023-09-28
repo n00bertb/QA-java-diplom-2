@@ -21,8 +21,6 @@ public class GetOrdersTest {
     private final CreateOrder createOrder = new CreateOrder();
     private final AssertsOrders assertsOrders = new AssertsOrders();
     private final UsersRegistration usersRegistration = new UsersRegistration();
-    private final UserData userData = new UserData();
-    private final OrdersData ordersData = new OrdersData();
     private ValidatableResponse creatingUser;
     private ValidatableResponse authRandomUser;
     private ValidatableResponse getOrdersForUser;
@@ -32,7 +30,7 @@ public class GetOrdersTest {
 
     @Before
     public void creatingTestUser() {
-        creatingUser = usersRegistration.userRegistration(userData.randomUser());
+        creatingUser = usersRegistration.userRegistration(UserData.randomUser());
         randomUserEmail = creatingUser.extract().path("user.email");
     }
 
@@ -43,7 +41,7 @@ public class GetOrdersTest {
         authUserData = new Authentication(randomUserEmail, "q12345678");
         authRandomUser = authUsers.authenticationUser(authUserData);
         userToken = authRandomUser.extract().path("accessToken");
-        createOrder.creatingOrder(ordersData.orderBunWithIngredientsImmortalBun());
+        createOrder.creatingOrder(OrdersData.orderBunWithIngredientsImmortalBun());
         getOrdersForUser = getOrders.GetOrdersForUserWithAuthorization(userToken);
         assertsOrders.getOrderWithAuthorized(getOrdersForUser);
 
@@ -55,7 +53,7 @@ public class GetOrdersTest {
         authUserData = new Authentication(randomUserEmail, "q12345678");
         authRandomUser = authUsers.authenticationUser(authUserData);
         userToken = authRandomUser.extract().path("accessToken");
-        createOrder.creatingOrder(ordersData.orderBunWithIngredientsImmortalBun());
+        createOrder.creatingOrder(OrdersData.orderBunWithIngredientsImmortalBun());
         getOrdersForUser = getOrders.GetOrdersForUserWithAuthorization("");
         assertsOrders.getOrderWithoutAuthorized(getOrdersForUser);
     }

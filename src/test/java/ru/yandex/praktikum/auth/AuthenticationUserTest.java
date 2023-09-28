@@ -7,14 +7,12 @@ import org.junit.*;
 import ru.yandex.praktikum.auth.user.AuthUsers;
 import ru.yandex.praktikum.helper.UserData;
 import ru.yandex.praktikum.registrations.user.UsersRegistration;
-
 import static ru.yandex.praktikum.helper.UserData.*;
 
 @DisplayName("Проверка авторизации")
 public class AuthenticationUserTest {
     private final AuthUsers authUsers = new AuthUsers();
     private final AssertsAuth assertsAuth = new AssertsAuth();
-    private final static UserData userData = new UserData();
     private final static UsersRegistration usersRegistration = new UsersRegistration();
     private static ValidatableResponse authBaseUser;
     private Authentication auth;
@@ -22,14 +20,14 @@ public class AuthenticationUserTest {
 
     @BeforeClass
     public static void creatBaseUser() {
-        usersRegistration.userRegistration(userData.baseUser());
+        usersRegistration.userRegistration(UserData.baseUser());
     }
 
     @Test
     @DisplayName("Авторизация под существующим пользователем")
     @Description("Авторизация под существующим пользователем")
     public void successfulUserAuthentication() {
-        auth = Authentication.fromRegistrationUser(userData.baseUser());
+        auth = Authentication.fromRegistrationUser(UserData.baseUser());
         authBaseUser = authUsers.authenticationUser(auth);
         assertsAuth.successfulAuthentication(authBaseUser);
     }
@@ -38,7 +36,7 @@ public class AuthenticationUserTest {
     @DisplayName("Авторизация с некорректным логином или паролем.")
     @Description("Авторизация с некорректным логином или паролем.")
     public void userAuthWithIncorrectLogin() {
-        auth = Authentication.fromRegistrationUser(userData.randomUser());
+        auth = Authentication.fromRegistrationUser(UserData.randomUser());
         authBaseUser = authUsers.authenticationUser(auth);
         assertsAuth.failedAuthentication(authBaseUser);
     }
